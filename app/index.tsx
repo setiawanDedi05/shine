@@ -1,12 +1,16 @@
 import CustomButton from "@/components/ui/CustomButton";
 import { images } from "@/constants";
-import { router } from "expo-router";
+import { IGlobalState, useGlobalContext } from "@/context/GlobalProvider";
+import { Redirect, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { Image, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function index() {
+export default function App() {
+  const { isLoading, isLoggedIn } = useGlobalContext() as IGlobalState;
+
+  if (!isLoading && isLoggedIn) return <Redirect href="/home" />;
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView
@@ -43,7 +47,7 @@ export default function index() {
           <CustomButton
             title="Continue With Email"
             handlePress={() => {
-              router.push("/sign-in")
+              router.push("/sign-in");
             }}
             containerStyle="w-full mt-7"
           />
